@@ -13,9 +13,7 @@ public class MainClass {
         By subCategoryOrders = By.linkText("Заказы");
         By xpathAdminCategories = By.xpath("//li[@id='subtab-AdminCategories']");
 
-        String property = System.getProperty("user.dir") + "/driver/chromedriver.exe";
-        System.setProperty("webdriver.chrome.driver", property);
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = initWebDriver();
         driver.get("http://prestashop-automation.qatestlab.com.ua/admin147ajyvk0/");
 
         LogInScript.Login(driver, "email", "passwd", "webinar.test@gmail.com", "Xcg7299bnSmMuRLp9ITw", "submitLogin");
@@ -42,20 +40,20 @@ public class MainClass {
         WebElement addNewCategoryBtn = driver.findElement(By.xpath("//*[@class='toolbar_btn  pointer']"));
         //click on the button
         addNewCategoryBtn.click();
-        
+
         try {
             Thread.sleep(600);
         } catch (InterruptedException e) {
             System.out.println("got interrupted!");
         }
 
-      //  WebElement inputNewCategory= driver.findElement(By.id("name_1"));
-//        WebElement inputNewCategory = driver.findElement(By.className("copy2friendlyUrl"));
+        //WebElement inputNewCategory= driver.findElement(By.id("name_1"));
+        //WebElement inputNewCategory = driver.findElement(By.className("copy2friendlyUrl"));
         //WebElement inputNewCategory = driver.findElement(By.xpath("//input[@id='name_1']"));
         //WebElement inputNewCategory = driver.findElement(By.xpath("//*[@id='name_1']"));
         //WebElement inputNewCategory = driver.findElement(By.xpath("//input[@name='name_1']"));
-      //  WebElement inputNewCategory = driver.findElement(By.xpath("//*[@name='name_1']"));
-       // WebElement inputNewCategory = driver.findElement(By.cssSelector("#name_1"));
+        //WebElement inputNewCategory = driver.findElement(By.xpath("//*[@name='name_1']"));
+        //WebElement inputNewCategory = driver.findElement(By.cssSelector("#name_1"));
         //WebElement inputNewCategory = driver.findElement(By.cssSelector(".col-lg-9 >.form-group > .translatable-field.lang-1 >.col-lg-9"));
         WebElement inputNewCategory = driver.findElement(By.xpath("//input[@id='name_1']"));
 
@@ -80,5 +78,13 @@ public class MainClass {
         }
 
        driver.quit();
+    }
+
+    public  static  WebDriver initWebDriver()
+    {
+        String property = System.getProperty("user.dir") + "/driver/chromedriver.exe";
+        System.setProperty("webdriver.chrome.driver", property);
+
+        return new ChromeDriver();
     }
 }
