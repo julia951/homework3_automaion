@@ -10,58 +10,64 @@ import java.util.List;
 public class MainClass {
     public static void main(String... args) {
 
-        By element1 = By.linkText("Заказы");
-        By element3 = By.xpath("//li[@id='subtab-AdminCategories']");
-        By element5 = By.xpath("//div[@class='col-lg-9']/input[@id='name_1']");
-        By element6 = By.xpath("//a[@id='page-header-desc-category-new_category']");
+        By subCategoryOrders = By.linkText("Заказы");
+        By xpathAdminCategories = By.xpath("//li[@id='subtab-AdminCategories']");
 
         String property = System.getProperty("user.dir") + "/driver/chromedriver.exe";
         System.setProperty("webdriver.chrome.driver", property);
         WebDriver driver = new ChromeDriver();
         driver.get("http://prestashop-automation.qatestlab.com.ua/admin147ajyvk0/");
 
-        //log in
-        ScriptA.Login(driver, "email", "passwd", "webinar.test@gmail.com", "Xcg7299bnSmMuRLp9ITw", "submitLogin");
+        LogInScript.Login(driver, "email", "passwd", "webinar.test@gmail.com", "Xcg7299bnSmMuRLp9ITw", "submitLogin");
 
         //find catalog
         WebDriverWait wait = new WebDriverWait(driver,10);
-        wait.until(ExpectedConditions.presenceOfElementLocated(element1));
-        WebElement element2 = driver.findElement(By.linkText("Каталог"));
+        wait.until(ExpectedConditions.presenceOfElementLocated(subCategoryOrders));
+        WebElement subCatalogue = driver.findElement(By.linkText("Каталог"));
         Actions actions = new Actions(driver);
-        actions.moveToElement(element2).build().perform();
-        wait.until(ExpectedConditions.presenceOfElementLocated(element3));
+        actions.moveToElement(subCatalogue).build().perform();
+        wait.until(ExpectedConditions.presenceOfElementLocated(xpathAdminCategories));
 
         //нажимаем на категории
-        WebElement element4 =driver.findElement(By.xpath("//li[@id='subtab-AdminCategories']"));
-        actions.moveToElement(element4).build().perform();
-        element4.click();
+        WebElement subtabAdminCategories =driver.findElement(By.xpath("//li[@id='subtab-AdminCategories']"));
+        actions.moveToElement(subtabAdminCategories).build().perform();
+        subtabAdminCategories.click();
 
         // ищем кнопоку добавить категорию
-        wait.until(ExpectedConditions.visibilityOfElementLocated(element1));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(subCategoryOrders));
 
-       // WebElement element8 = driver.findElement(By.cssSelector("#page-header-desc-category-new_category > div"));
-       // WebElement element8 = driver.findElement(By.xpath("//*[@id='page-header-desc-category-new_category']/div"));
-       // WebElement element8 = driver.findElement(By.xpath("//*[@id='page-header-desc-category-new_category']/i"));
-       // WebElement element8 = driver.findElement(By.xpath("//*[@id='page-header-desc-category-new_category']/i"));
-        WebElement element8 = driver.findElement(By.xpath("//*[@id='page-header-desc-category-new_category']/i"));
-        List<WebElement> arrayBeforeSort = driver.findElements(By.xpath("//*[@id='table-category']"));
+         List<WebElement> arrayBeforeSort = driver.findElements(By.name("categoryBox[]"));
 
+         //search the buttonadding new category
+        WebElement addNewCategoryBtn = driver.findElement(By.xpath("//*[@class='toolbar_btn  pointer']"));
         //click on the button
-        element8.click();
+        addNewCategoryBtn.click();
+        
+        try {
+            Thread.sleep(600);
+        } catch (InterruptedException e) {
+            System.out.println("got interrupted!");
+        }
 
+      //  WebElement inputNewCategory= driver.findElement(By.id("name_1"));
+//        WebElement inputNewCategory = driver.findElement(By.className("copy2friendlyUrl"));
+        //WebElement inputNewCategory = driver.findElement(By.xpath("//input[@id='name_1']"));
+        //WebElement inputNewCategory = driver.findElement(By.xpath("//*[@id='name_1']"));
+        //WebElement inputNewCategory = driver.findElement(By.xpath("//input[@name='name_1']"));
+      //  WebElement inputNewCategory = driver.findElement(By.xpath("//*[@name='name_1']"));
+       // WebElement inputNewCategory = driver.findElement(By.cssSelector("#name_1"));
+        //WebElement inputNewCategory = driver.findElement(By.cssSelector(".col-lg-9 >.form-group > .translatable-field.lang-1 >.col-lg-9"));
+        WebElement inputNewCategory = driver.findElement(By.xpath("//input[@id='name_1']"));
 
-        //пишем в названии категории Тест и нажимаем сохранить
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("name_1")));
-        WebElement element9 = driver.findElement(By.id("name_1"));
-        element9.sendKeys("Test");
-        WebElement element7 = driver.findElement(By.xpath("//*[@id='category_form_submit_btn']"));
-        element7.click();
+        inputNewCategory.sendKeys("Test");
+        WebElement saveBtn = driver.findElement(By.xpath("//*[@id='category_form_submit_btn']"));
+        saveBtn.click();
 
         //sure that the category is saved
         WebElement element10 = driver.findElement(By.cssSelector("#content > div:nth-child(4) > div"));
 
         //find the list
-        wait.until(ExpectedConditions.visibilityOfElementLocated(element1));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(subCategoryOrders));
         List<WebElement> arrayAfterSort = driver.findElements(By.xpath("//*[@id='table-category']"));
 
         if (arrayAfterSort.size()>arrayBeforeSort.size()) {
@@ -73,6 +79,6 @@ public class MainClass {
             System.out.println("The element is not found");
         }
 
-        driver.quit();
+       driver.quit();
     }
 }
