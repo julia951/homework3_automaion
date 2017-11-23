@@ -1,7 +1,10 @@
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -13,7 +16,12 @@ public class MainClass {
         By subCategoryOrders = By.linkText("Заказы");
         By xpathAdminCategories = By.xpath("//li[@id='subtab-AdminCategories']");
 
-        WebDriver driver = initWebDriver();
+ //         WebDriver driver = initWebDriver();
+
+    //    System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"/driver/geckodriver");
+
+        WebDriver driver = new FirefoxDriver();
+
         driver.get("http://prestashop-automation.qatestlab.com.ua/admin147ajyvk0/");
 
         LogInScript.Login(driver, "email", "passwd", "webinar.test@gmail.com", "Xcg7299bnSmMuRLp9ITw", "submitLogin");
@@ -42,7 +50,7 @@ public class MainClass {
         addNewCategoryBtn.click();
 
         try {
-            Thread.sleep(600);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             System.out.println("got interrupted!");
         }

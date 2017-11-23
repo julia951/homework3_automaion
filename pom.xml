@@ -27,7 +27,7 @@
                     <configuration>
                         <systemPropertyVariables>
                             <driver.chrome>
-                                ${project.basedir}${file.separator}driver${file.separator}chromedriver.exe
+                                ${project.basedir}${file.separator}driver${file.separator}geckodriver
                             </driver.chrome>
                         </systemPropertyVariables>
                     </configuration>
