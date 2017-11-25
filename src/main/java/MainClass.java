@@ -1,7 +1,6 @@
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -15,21 +14,19 @@ public class MainClass {
 
         By subCategoryOrders = By.linkText("Заказы");
         By xpathAdminCategories = By.xpath("//li[@id='subtab-AdminCategories']");
+        String siteTitle = "http://prestashop-automation.qatestlab.com.ua/admin147ajyvk0/";
 
- //         WebDriver driver = initWebDriver();
+        WebDriver driver = initWebDriver();
 
-    //    System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"/driver/geckodriver");
-
-        WebDriver driver = new FirefoxDriver();
-
-        driver.get("http://prestashop-automation.qatestlab.com.ua/admin147ajyvk0/");
+        driver.get(siteTitle);
 
         LogInScript.Login(driver, "email", "passwd", "webinar.test@gmail.com", "Xcg7299bnSmMuRLp9ITw", "submitLogin");
 
-        //find catalog
         WebDriverWait wait = new WebDriverWait(driver,10);
         wait.until(ExpectedConditions.presenceOfElementLocated(subCategoryOrders));
+
         WebElement subCatalogue = driver.findElement(By.linkText("Каталог"));
+
         Actions actions = new Actions(driver);
         actions.moveToElement(subCatalogue).build().perform();
         wait.until(ExpectedConditions.presenceOfElementLocated(xpathAdminCategories));
@@ -78,11 +75,11 @@ public class MainClass {
 
         if (arrayAfterSort.size()>arrayBeforeSort.size()) {
             //find my element of list
-            System.out.print("The element is found");
+            System.out.print("The element is added");
         }
         else
         {
-            System.out.println("The element is not found");
+            System.out.println("The element is not added");
         }
 
        driver.quit();
