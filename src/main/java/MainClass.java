@@ -4,6 +4,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -16,7 +17,13 @@ public class MainClass {
         By xpathAdminCategories = By.xpath("//li[@id='subtab-AdminCategories']");
         String siteTitle = "http://prestashop-automation.qatestlab.com.ua/admin147ajyvk0/";
 
-        WebDriver driver = initWebDriver();
+        String property = System.getProperty("user.dir") + "/driver/chromedriver.exe";
+        System.setProperty("webdriver.chrome.driver", property);
+
+        EventFiringWebDriver driver = new EventFiringWebDriver(new ChromeDriver());
+
+        EventHandler eventHandler= new EventHandler();
+        driver.register(new EventHandler());
 
         driver.get(siteTitle);
 
@@ -82,14 +89,7 @@ public class MainClass {
             System.out.println("The element is not added");
         }
 
+        driver.unregister(new EventHandler());
        driver.quit();
-    }
-
-    public  static  WebDriver initWebDriver()
-    {
-        String property = System.getProperty("user.dir") + "/driver/chromedriver.exe";
-        System.setProperty("webdriver.chrome.driver", property);
-
-        return new ChromeDriver();
     }
 }
